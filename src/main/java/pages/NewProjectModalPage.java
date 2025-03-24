@@ -42,6 +42,7 @@ public class NewProjectModalPage extends BasePage{
 
     public ProjectPage createProject(String projectName, String projectCode, String text) {
         fillNewProjectForm(projectName, projectCode, text);
+        waiters.waitForPageLoaded();
         return new ProjectPage();
     }
 

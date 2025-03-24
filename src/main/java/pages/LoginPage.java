@@ -17,6 +17,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage openLoginPage(String url) {
         open(url);
+        waiters.waitForPageLoaded();
         return this;
     }
 
@@ -34,6 +35,7 @@ public class LoginPage extends BasePage {
     }
     public ProjectsListPage login(String email, String password) {
         fillLoginForm(email, password);
+        waiters.waitForPageLoaded();
         return new ProjectsListPage();
     }
 }

@@ -16,12 +16,14 @@ public class ProjectsListPage extends BasePage {
     private static final SelenideElement DELETE_BUTTON_ON_MODAL = $x("//span[text()='Delete project']");
 
     public ProjectsListPage isOpened() {
+        waiters.waitForPageLoaded();
         CREATE_NEW_PROJECT_BUTTON.shouldBe(Condition.visible);
         return this;
     }
 
     public NewProjectModalPage createNewProject() {
         new Button().click(CREATE_NEW_PROJECT_BUTTON);
+        waiters.waitForPageLoaded();
         return new NewProjectModalPage();
     }
 

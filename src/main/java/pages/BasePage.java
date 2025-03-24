@@ -1,5 +1,7 @@
 package pages;
 
-public abstract class BasePage {
+import waiters.Waiters;
 
+public abstract class BasePage {
+    Waiters waiters = new Waiters();
 }

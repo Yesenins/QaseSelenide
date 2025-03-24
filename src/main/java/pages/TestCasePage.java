@@ -48,16 +48,16 @@ public class TestCasePage extends BasePage {
 //        new Dropdown("Milestone").dropdownSelectOptions(testCase.getMilestone());
         new Dropdown("Behavior").dropdownSelectOptions(testCase.getBehavior());
         new Dropdown("Automation status").dropdownSelectOptions(testCase.getAutomationStatus());
-        new Input("Description").writeTestCase(testCase.getDescription());
+        new Input("Description").writeTestCaseForm(testCase.getDescription());
         new Button().click(CHECKBOX_TO_BE_AUTOMATED);
-        new Input("Pre-conditions").writeTestCase(testCase.getPreConditions());
-        new Input("Post-conditions").writeTestCase(testCase.getPostConditions());
+        new Input("Pre-conditions").writeTestCaseForm(testCase.getPreConditions());
+        new Input("Post-conditions").writeTestCaseForm(testCase.getPostConditions());
         new Button().click(SAVE_BUTTON);
 
         return this;
     }
 
-    public ProjectPageWithTests createTestCase(TestCase testCase) {
+    public ProjectPage createTestCase(TestCase testCase) {
         fillCreateTestCaseForm(testCase);
         try {
             WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
@@ -67,6 +67,7 @@ public class TestCasePage extends BasePage {
         } catch (TimeoutException e) {
 
         }
-        return new ProjectPageWithTests();
+        waiters.waitForPageLoaded();
+        return new ProjectPage();
     }
 }

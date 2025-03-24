@@ -14,6 +14,7 @@ public class HeaderPage extends BasePage{
 
     public ProjectsListPage openProjectListPage() {
         new Button().click(PROJECTS_BUTTON);
+        waiters.waitForPageLoaded();
         return new ProjectsListPage();
     }
 }
