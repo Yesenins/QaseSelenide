@@ -1,9 +1,6 @@
 package steps;
 
 import io.qameta.allure.Step;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import pages.LoginPage;
 
 

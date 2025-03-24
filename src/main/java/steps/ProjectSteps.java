@@ -51,6 +51,35 @@ public class ProjectSteps extends  BaseSteps{
     }
 
     @Step
+    public ProjectSteps addSuite (String suiteName,String text, String preconditions) {
+        projectPage
+                .isOpened()
+                .addSuite()
+                .createSuite(suiteName,text,preconditions);
+        return this;
+    }
+
+    @Step
+    public ProjectSteps checkSuiteInformation(String suiteName, String text) {
+        Assert.assertEquals(projectPage.getSuiteName(), suiteName);
+        Assert.assertEquals(projectPage.getSuiteDescription(), text);
+        return this;
+
+    }
+
+    @Step
+    public ProjectSteps checkTestInformation(TestCase testCase) {
+        projectPage
+                .closeTestCart()
+                .openTestCart(testCase.getTitle());
+        Assert.assertEquals(projectPage.getTestName(), testCase.getTitle());
+        Assert.assertEquals(projectPage.getTestInformation("Description"), testCase.getDescription());
+        Assert.assertEquals(projectPage.getTestInformation("Pre-conditions"), testCase.getPreConditions());
+        Assert.assertEquals(projectPage.getTestInformation("Post-conditions"), testCase.getPostConditions());
+        return this;
+    }
+
+    @Step
     public ProjectSteps deleteProject(String projectName) {
         headerPage
                 .openProjectListPage()
@@ -72,6 +101,20 @@ public class ProjectSteps extends  BaseSteps{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//table//tbody//tr[2]")));
         ElementsCollection table = $$x("//table//tbody/tr");
         Assert.assertEquals(table.size(), 1);
+        return this;
+    }
+
+    @Step
+    public ProjectSteps isSuiteDeleted() {
+        projectPage.isOpened();
+        Assert.assertEquals(projectPage.getSuiteQuantity(), "0");
+        return this;
+    }
+
+    @Step
+    public ProjectSteps deleteSuite() {
+        projectPage.isOpened();
+        projectPage.deleteSuite();
         return this;
     }
 }
