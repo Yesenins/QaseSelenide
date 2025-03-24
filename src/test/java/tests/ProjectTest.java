@@ -28,6 +28,21 @@ public class ProjectTest extends BaseTest{
                 .newProject("Main Project", "WoW", "description ahahaha")
                 .checkRepositoryName("WoW")
                 .createNewTest(testCase)
+                .checkTestInformation(testCase)
+                .deleteProject("Main Project")
+                .isProjectDeleted();
+    }
+
+    @Test
+    public void addSuiteTest() {
+        loginSteps.login(USER,PASSWORD,LOGIN_URL);
+        projectSteps
+                .newProject("Main Project", "WoW", "description ahahaha")
+                .checkRepositoryName("WoW")
+                .addSuite("Suite 1","description", "precondition")
+                .checkSuiteInformation("Suite 1","description")
+                .deleteSuite()
+                .isSuiteDeleted()
                 .deleteProject("Main Project")
                 .isProjectDeleted();
     }

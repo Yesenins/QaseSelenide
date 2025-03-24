@@ -10,7 +10,9 @@ public class Input {
     public String inputLoginLocator = "//*[@name='%s']";
     public String inputNewProjectModalLocator = "//*[@id='%s']";
     public String inputTitleTestCaseLocator = "//*[@id='title']";
+    public String inputSuiteNameLocator = "//*[@id='title']";
     public String inputTestCaseLocator = "//*[text()='%s']/parent::*//p";
+    public String inputSuiteLocator = "//*[text()='%s']/../parent::*//p";
 
 
     public Input(String label) {
@@ -32,8 +34,18 @@ public class Input {
         return this;
     }
 
-    public Input writeTestCase(String text) {
+    public Input writeTestCaseForm(String text) {
         $x(String.format(inputTestCaseLocator, label)).shouldBe(Condition.visible).setValue(text);
+        return this;
+    }
+
+    public Input writeSuiteForm(String text) {
+        $x(String.format(inputSuiteLocator, label)).shouldBe(Condition.visible).setValue(text);
+        return this;
+    }
+
+    public Input writeSuiteName(String text) {
+        $x(String.format(inputTitleTestCaseLocator)).shouldBe(Condition.visible).setValue(text);
         return this;
     }
 
