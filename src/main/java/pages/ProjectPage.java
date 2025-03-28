@@ -26,6 +26,7 @@ public class ProjectPage extends BasePage{
     }
 
     public ProjectPage isOpened() {
+        waiters.waitForPageLoaded();
        NEW_TEST.shouldBe(Condition.visible);
         return this;
     }
@@ -84,6 +85,7 @@ public class ProjectPage extends BasePage{
         new Button().click(DELETE_SUITE_BUTTON);
         MODAL_WINDOW.shouldBe(Condition.visible);
         new Button().click(DELETE_BUTTON_ON_MODAL);
+        MODAL_WINDOW.shouldNotBe(Condition.visible);
         return this;
     }
 }

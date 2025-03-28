@@ -53,7 +53,6 @@ public class TestCasePage extends BasePage {
         new Input("Pre-conditions").writeTestCaseForm(testCase.getPreConditions());
         new Input("Post-conditions").writeTestCaseForm(testCase.getPostConditions());
         new Button().click(SAVE_BUTTON);
-
         return this;
     }
 

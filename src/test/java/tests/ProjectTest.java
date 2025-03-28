@@ -2,7 +2,6 @@ package tests;
 
 import objects.TestCase;
 import org.testng.annotations.Test;
-import pages.TestCasePage;
 
 public class ProjectTest extends BaseTest{
 
@@ -24,19 +23,23 @@ public class ProjectTest extends BaseTest{
         testCase.setPreConditions("preConditions");
         testCase.setPostConditions("postConditions");
         loginSteps.login(USER,PASSWORD,LOGIN_URL);
+        int projectsQuantity = projectSteps.getProjectsQuantity();
         projectSteps
+                .checkQuantityOfProjects(projectsQuantity)
                 .newProject("Main Project", "WoW", "description ahahaha")
                 .checkRepositoryName("WoW")
                 .createNewTest(testCase)
                 .checkTestInformation(testCase)
                 .deleteProject("Main Project")
-                .isProjectDeleted();
+                .isProjectDeleted(projectsQuantity);
     }
 
     @Test
     public void addSuiteTest() {
         loginSteps.login(USER,PASSWORD,LOGIN_URL);
+        int projectsQuantity = projectSteps.getProjectsQuantity();
         projectSteps
+                .checkQuantityOfProjects(projectsQuantity)
                 .newProject("Main Project", "WoW", "description ahahaha")
                 .checkRepositoryName("WoW")
                 .addSuite("Suite 1","description", "precondition")
@@ -44,6 +47,6 @@ public class ProjectTest extends BaseTest{
                 .deleteSuite()
                 .isSuiteDeleted()
                 .deleteProject("Main Project")
-                .isProjectDeleted();
+                .isProjectDeleted(projectsQuantity);
     }
 }

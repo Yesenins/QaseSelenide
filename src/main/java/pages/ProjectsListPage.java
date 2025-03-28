@@ -1,10 +1,18 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import elements.Button;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class ProjectsListPage extends BasePage {
 
@@ -32,12 +40,25 @@ public class ProjectsListPage extends BasePage {
         return this;
     }
 
-    public ProjectsListPage deleteProject(String projectName) {
-        new Button().click($x(String.format(ACTION_MENU, projectName)));
+    public ProjectsListPage deleteProject () {
         DELETE_BUTTON.shouldBe(Condition.visible);
         new Button().click(DELETE_BUTTON);
         MODAL_WINDOW.shouldBe(Condition.visible);
         new Button().click(DELETE_BUTTON_ON_MODAL);
+        MODAL_WINDOW.shouldNotBe(Condition.visible);
+        return this;
+    }
+
+    public ProjectsListPage deleteProjectByName(String projectName) {
+        new Button().click($x(String.format(ACTION_MENU, projectName)));
+        deleteProject();
+        return this;
+    }
+
+
+    public ProjectsListPage deleteLastProject() {
+        new Button().click(($x("//table//tbody/tr[2]//*[@aria-label=\"Open action menu\"]")));
+        deleteProject();
         return this;
     }
 }

@@ -14,7 +14,6 @@ public class Input {
     public String inputTestCaseLocator = "//*[text()='%s']/parent::*//p";
     public String inputSuiteLocator = "//*[text()='%s']/../parent::*//p";
 
-
     public Input(String label) {
         this.label = label;
     }

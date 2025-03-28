@@ -1,9 +1,14 @@
 package steps;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
 import objects.TestCase;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -14,7 +19,7 @@ import pages.ProjectsListPage;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class ProjectSteps extends  BaseSteps{
@@ -23,12 +28,22 @@ public class ProjectSteps extends  BaseSteps{
     ProjectPage projectPage;
     NewProjectModalPage newProjectModalPage;
     HeaderPage headerPage;
+    int projectsQuantity;
 
     public ProjectSteps() {
         this.projectsListPage = new ProjectsListPage();
         this.projectPage = new ProjectPage();
         this.newProjectModalPage = new NewProjectModalPage();
         this.headerPage = new HeaderPage();
+    }
+
+    @Step
+    public int getProjectsQuantity() {
+        projectsListPage.isOpened();
+//        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//table//tbody//tr[2]")));
+        ElementsCollection table = $$x("//table//tbody/tr");
+        return table.size();
     }
 
     @Step("Login by user: {email}")
@@ -64,7 +79,6 @@ public class ProjectSteps extends  BaseSteps{
         Assert.assertEquals(projectPage.getSuiteName(), suiteName);
         Assert.assertEquals(projectPage.getSuiteDescription(), text);
         return this;
-
     }
 
     @Step
@@ -83,24 +97,28 @@ public class ProjectSteps extends  BaseSteps{
     public ProjectSteps deleteProject(String projectName) {
         headerPage
                 .openProjectListPage()
-                .deleteProject(projectName);
+                .deleteProjectByName(projectName);
         return this;
     }
 
     @Step
     public ProjectSteps checkRepositoryName(String projectCode) {
+
         String expectedName = projectCode.toUpperCase() + " repository";
         Assert.assertEquals(projectPage.getRepositoryName(),expectedName);
         return this;
     }
 
     @Step
-    public ProjectSteps isProjectDeleted() {
-        projectsListPage.isOpened();
-        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//table//tbody//tr[2]")));
-        ElementsCollection table = $$x("//table//tbody/tr");
-        Assert.assertEquals(table.size(), 1);
+    public ProjectSteps isProjectDeleted(int projectsQuantity) {
+          projectsListPage.isOpened();
+//        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//table//tbody//tr[2]")));
+//        ElementsCollection table = $$x("//table//tbody/tr");
+        if(projectsQuantity > 1){
+            projectsQuantity--;
+        }
+        Assert.assertEquals(getProjectsQuantity(), projectsQuantity);
         return this;
     }
 
@@ -115,6 +133,14 @@ public class ProjectSteps extends  BaseSteps{
     public ProjectSteps deleteSuite() {
         projectPage.isOpened();
         projectPage.deleteSuite();
+        return this;
+    }
+
+    @Step
+    public ProjectSteps checkQuantityOfProjects(int projectsQuantity) {
+        if (projectsQuantity > 1) {
+            projectsListPage.deleteLastProject();
+        }
         return this;
     }
 }
