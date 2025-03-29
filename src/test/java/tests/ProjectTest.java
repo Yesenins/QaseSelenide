@@ -24,6 +24,7 @@ public class ProjectTest extends BaseTest{
         testCase.setPostConditions("postConditions");
         loginSteps.login(USER,PASSWORD,LOGIN_URL);
         int projectsQuantity = projectSteps.getProjectsQuantity();
+        System.out.println(projectsQuantity);
         projectSteps
                 .checkQuantityOfProjects(projectsQuantity)
                 .newProject("Main Project", "WoW", "description ahahaha")

@@ -1,5 +1,6 @@
 package steps;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
@@ -43,6 +44,9 @@ public class ProjectSteps extends  BaseSteps{
 //        WebDriverWait wait = new WebDriverWait(getWebDriver(), Duration.ofSeconds(10));
 //        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//table//tbody//tr[2]")));
         ElementsCollection table = $$x("//table//tbody/tr");
+        table.shouldHave(CollectionCondition.sizeGreaterThanOrEqual(1));
+        //найти как сделать ожидалку с коллекцией
+        System.out.println(table.size());
         return table.size();
     }
 
